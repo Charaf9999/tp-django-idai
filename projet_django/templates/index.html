@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP Django - Accueil</title>
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="container nav">
+            <h1>MyProject Django</h1>
+            <nav>
+                <a href="{% url 'index' %}">Accueil</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'register' %}">Register</a>
+                    <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+                <a href="/admin/">Admin</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <p class="badge">FST Tanger - Licence IDAI</p>
+                <h2>TP Django : installation et architecture de base</h2>
+                <p class="subtitle">Projet simple réalisé avec URLs, vues, templates, formulaires, modèle et authentification.</p>
+            </div>
+        </section>
+
+        <section class="container messages-zone">
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        </section>
+
+        <section class="container grid two-columns">
+            <div class="card">
+                <h3>Données dynamiques du template</h3>
+                <ul>
+                    <li><strong>Nom :</strong> {{ name }}</li>
+                    <li><strong>Âge :</strong> {{ age }}</li>
+                    <li><strong>Marocaine :</strong> {{ moroccan }}</li>
+                    <li><strong>Utilisateur connecté :</strong> {{ user.username|default:"Aucun" }}</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Compteur de mots</h3>
+                <form method="POST" action="{% url 'counter' %}">
+                    {% csrf_token %}
+                    <label for="text">Entrez un texte :</label>
+                    <textarea name="text" id="text" rows="8" placeholder="Saisissez votre texte ici..."></textarea>
+                    <button type="submit">Compter les mots</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="container card">
+            <h3>Fonctionnalités enregistrées dans la base de données</h3>
+            <div class="features">
+                {% for feature in features %}
+                    <article class="feature-item">
+                        <h4>{{ feature.name }}</h4>
+                        <p>{{ feature.details }}</p>
+                    </article>
+                {% empty %}
+                    <p>Aucune fonctionnalité enregistrée pour le moment.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+</html>

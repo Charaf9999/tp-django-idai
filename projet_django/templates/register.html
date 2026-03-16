@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+</head>
+<body>
+    <main class="container page-center">
+        <div class="card narrow">
+            <h2>Inscription</h2>
+
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+
+            <form method="POST">
+                {% csrf_token %}
+                <label>Nom d'utilisateur</label>
+                <input type="text" name="username" required>
+
+                <label>Email</label>
+                <input type="email" name="email" required>
+
+                <label>Mot de passe</label>
+                <input type="password" name="password" required>
+
+                <label>Confirmation du mot de passe</label>
+                <input type="password" name="password2" required>
+
+                <button type="submit">S'inscrire</button>
+            </form>
+
+            <p class="small-text">Déjà inscrit ? <a href="{% url 'login' %}">Se connecter</a></p>
+        </div>
+    </main>
+</body>
+</html>
